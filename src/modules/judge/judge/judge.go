@@ -400,6 +400,7 @@ func GetReqs(stra *model.Stra, metric string, endpoints []string, now int64) []*
 }
 
 func sendEventIfNeed(historyData []*dataobj.HistoryData, status []bool, event *dataobj.Event, stra *model.Stra) {
+	fmt.Println(event)
 	isTriggered := true
 	for _, s := range status {
 		isTriggered = isTriggered && s

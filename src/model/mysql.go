@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"log"
 	"path"
 	"time"
@@ -25,8 +26,12 @@ func InitMySQL(names ...string) {
 	confdir := path.Join(runner.Cwd, "etc")
 
 	mysqlYml := path.Join(confdir, "mysql.local.yml")
+	fmt.Printf("%v\n",mysqlYml)
 	if !file.IsExist(mysqlYml) {
 		mysqlYml = path.Join(confdir, "mysql.yml")
+		if !file.IsExist(mysqlYml) {
+			mysqlYml = "etc/mysql.yml"
+		}
 	}
 
 	confs := make(map[string]MySQLConf)

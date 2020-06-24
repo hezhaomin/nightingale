@@ -2,6 +2,8 @@ package cron
 
 import (
 	"encoding/json"
+	"fmt"
+
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -12,6 +14,7 @@ import (
 	"github.com/didi/nightingale/src/modules/monapi/mcache"
 	"github.com/didi/nightingale/src/modules/monapi/redisc"
 	"github.com/didi/nightingale/src/toolkits/stats"
+	"github.com/satori/go.uuid"
 )
 
 func EventConsumer() {
@@ -165,10 +168,58 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 	event.NeedUpgrade = stra.NeedUpgrade
 	event.AlertUpgrade = alertUpgrade
 	err = model.SaveEvent(event)
+
 	if err != nil {
 		stats.Counter.Set("event.save.err", 1)
 		logger.Errorf("save event fail: %v, event: %+v", err, event)
 		return event, true
+	}
+	if event.EventType == config.ALERT {
+		fmt.Println("***************************\n")
+		fmt.Println(event)
+		fmt.Println("***************************\n")
+		value, exists := mcache.SaCache.ScGet(event.HashId)
+		if !exists || value == "0" {
+			detail , er :=  event.GetEventDetail()
+			if er!= nil {
+				return event,false
+			}
+			u1 := uuid.Must(uuid.NewV1())
+			us := u1.String()
+			sa := new(model.Sa)
+			sa.AlertTime = event.Etime
+			sa.HashId = event.HashId
+			sa.Uuid = us
+			sa.Metric = detail[0].Metric
+			sa.Endpoint = event.Endpoint
+			sa.EndpointAlias = event.Endpoint
+			err := model.SaveSa(sa)
+			if err != nil {
+				logger.Errorf("create or update event to sa fail: %v, event:%+v",err,event)
+				return event, false
+			}
+
+			mcache.SaCache.ScSet(event.HashId,us)
+		}
+
+	}
+	if event.EventType == config.RECOVERY {
+		value, exists := mcache.SaCache.ScGet(event.HashId)
+		if !exists {
+			logger.Errorf("alarm status recover but not get uuid from sacache: %v, event:%+v",err,event)
+			return event ,false
+		}
+		sa := new(model.Sa)
+		sa.RecoverTime = event.Etime
+		sa.HashId = event.HashId
+		sa.Uuid = value
+		err := model.SaRecoverSave(sa)
+		if err != nil {
+			logger.Errorf("create or update event to sa fail: %v, event:%+v",err,event)
+			return event, false
+		}
+		mcache.SaCache.ScSet(event.HashId,"0")
+
 	}
 
 	if event.EventType == config.ALERT {

@@ -17,6 +17,7 @@ require (
 	github.com/json-iterator/go v1.1.9
 	github.com/mattn/go-isatty v0.0.12
 	github.com/open-falcon/rrdlite v0.0.0-20200214140804-bf5829f786ad
+	github.com/satori/go.uuid v1.2.1-0.20181028125025-b2ce2384e17b
 	github.com/shirou/gopsutil v2.20.4+incompatible
 	github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
 	github.com/spf13/viper v1.6.2

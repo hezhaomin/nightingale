@@ -13,18 +13,15 @@ transfer:
 tsdb:
   http: 0.0.0.0:5820
   rpc: 0.0.0.0:5821
-  addresses:
-    - 10.237.25.128
+
 index:
   http: 0.0.0.0:5830
   rpc: 0.0.0.0:5831
-  addresses:
-    - 10.237.25.128
+
 judge:
   http: 0.0.0.0:5840
   rpc: 0.0.0.0:5841
-  addresses:
-    - 10.237.25.128
+
 collector:
   http: 0.0.0.0:2058
 

@@ -1,7 +1,8 @@
 set names utf8;
 use n9e_mon;
-create table `sa` (
+create table IF NOT EXISTS `sa`   (
   `id` bigint(20) unsigned not null AUTO_INCREMENT comment 'id',
+  `sid` bigint(20) unsigned not null default 0 comment 'sid',
   `endpoint` varchar(255) not null default '' comment 'endpoint',
   `endpoint_alias` varchar(255) not null default '' comment 'endpoint alias',
   `hashid` varchar(128) not null default '' comment 'sid+counter hash',
@@ -19,3 +20,16 @@ create table `sa` (
   KEY `idx_hashid` (`hashid`)
 
 ) engine=innodb default charset=utf8 comment 'sa';
+
+create table  if not exists `sa_saconfigmodel`   (
+  `id` bigint(20) unsigned not null AUTO_INCREMENT comment 'id',
+  `name` varchar(255) not null unique comment 'name',
+  `stra` varchar(8192),
+  `nid` bigint(20) not null default 0 comment 'alter time',
+  `user` varchar(32) not null default '' comment '设置reason info 得用户',
+  `create` DATETIME not null default '1971-1-1 00:00:00' comment 'created',
+  PRIMARY KEY (`id`),
+  KEY `idx_id` (`id`)
+
+
+) engine=innodb default charset=utf8 comment 'sa_saconfigmodel';

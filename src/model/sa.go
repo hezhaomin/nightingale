@@ -8,6 +8,7 @@ import (
 
 type Sa struct {
 	Id            int64     `json:"id"`
+	Sid           int64     `json:"sid"`
 	Metric           string     `json:"metric"`
 	AlertTime        int64       `json:"alert_time"`
 	RecoverTime      int64   `json:"recover_time"`

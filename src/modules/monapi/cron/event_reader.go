@@ -189,10 +189,11 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 			sa := new(model.Sa)
 			sa.AlertTime = event.Etime
 			sa.HashId = event.HashId
+			sa.Sid = event.Sid
 			sa.Uuid = us
 			sa.Metric = detail[0].Metric
 			sa.Endpoint = event.Endpoint
-			sa.EndpointAlias = event.Endpoint
+			sa.EndpointAlias = event.EndpointAlias
 			err := model.SaveSa(sa)
 			if err != nil {
 				logger.Errorf("create or update event to sa fail: %v, event:%+v",err,event)
@@ -207,7 +208,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		value, exists := mcache.SaCache.ScGet(event.HashId)
 		if !exists {
 			logger.Errorf("alarm status recover but not get uuid from sacache: %v, event:%+v",err,event)
-			return event ,false
+			return event ,true
 		}
 		sa := new(model.Sa)
 		sa.RecoverTime = event.Etime

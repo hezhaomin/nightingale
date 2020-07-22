@@ -55,6 +55,12 @@ func SaRecoverSave(sa *Sa ) error {
 	if err!= nil {
 		return err
 	}
+	if obj == nil{
+               
+	       fmt.Printf("%v \n",sa)
+               return err
+        }
+        
 
 	ti := sa.RecoverTime - obj.AlertTime
 	fmt.Printf("%v \n",ti)

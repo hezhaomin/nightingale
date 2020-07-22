@@ -179,6 +179,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		fmt.Println(event)
 		fmt.Println("***************************\n")
 		value, exists := mcache.SaCache.ScGet(event.HashId)
+                fmt.Println("value:%v hasid %v\n",value,event.HashId)
 		if !exists || value == "0" {
 			detail , er :=  event.GetEventDetail()
 			if er!= nil {
@@ -189,7 +190,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 			sa := new(model.Sa)
 			sa.AlertTime = event.Etime
 			sa.HashId = event.HashId
-			sa.Sid = event.Sid
+                        sa.Sid = event.Sid
 			sa.Uuid = us
 			sa.Metric = detail[0].Metric
 			sa.Endpoint = event.Endpoint
@@ -208,8 +209,12 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		value, exists := mcache.SaCache.ScGet(event.HashId)
 		if !exists {
 			logger.Errorf("alarm status recover but not get uuid from sacache: %v, event:%+v",err,event)
+<<<<<<< HEAD
 			return event ,true
 		}
+=======
+		} else {
+>>>>>>> ee732c6fd3a27fed07d6c0d8064a754650ed1549
 		sa := new(model.Sa)
 		sa.RecoverTime = event.Etime
 		sa.HashId = event.HashId
@@ -219,7 +224,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 			logger.Errorf("create or update event to sa fail: %v, event:%+v",err,event)
 			return event, false
 		}
-		mcache.SaCache.ScSet(event.HashId,"0")
+		mcache.SaCache.ScSet(event.HashId,"0")}
 
 	}
 

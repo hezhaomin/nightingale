@@ -5,9 +5,9 @@ query:
 
 redis:
   addrs: 
-    - 127.0.0.1:6379
+    - 10.237.25.135:6379
   db: 0
-  pass: ""
+  pass: "night@123"
   # timeout:
   #   conn: 500
   #   read: 3000

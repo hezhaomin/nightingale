@@ -3,7 +3,7 @@ salt: "PLACE_SALT"
 
 logger:
   dir: "logs/monapi"
-  level: "DEBUG"
+  level: "WARNING"
   keepHours: 24
 
 http:
@@ -51,31 +51,14 @@ link:
 
 # for alarm event and message queue
 redis:
-  addr: "127.0.0.1:6379"
+  addr: "10.237.25.135:6379"
   db: 0
-  pass: ""
+  pass: "night@123"
   # in ms
   # timeout:
   #   conn: 500
   #   read: 3000
   #   write: 3000
-  #
-  #
-uic:
-  addr: "root:@tcp(127.0.0.1:3306)/n9e_uic?charset=utf8&parseTime=True&loc=Asia%2FShanghai"
-  max: 16
-  idle: 4
-  debug: false
-mon:
-  addr: "root:@tcp(127.0.0.1:3306)/n9e_mon?charset=utf8&parseTime=True&loc=Asia%2FShanghai"
-  max: 16
-  idle: 4
-  debug: false
-hbs:
-  addr: "root:@tcp(127.0.0.1:3306)/n9e_hbs?charset=utf8&parseTime=True&loc=Asia%2FShanghai"
-  max: 16
-  idle: 4
-  debug: false
 
 tokens:
   - 7dcd606e0462f9df2fea0bf505c9e622

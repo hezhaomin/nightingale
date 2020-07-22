@@ -28,6 +28,7 @@ _test
 /out
 /build
 /dist
+/etc/*.yml
 /etc/*.local.yml
 /etc/log/log.test.json
 /data*

@@ -209,12 +209,8 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		value, exists := mcache.SaCache.ScGet(event.HashId)
 		if !exists {
 			logger.Errorf("alarm status recover but not get uuid from sacache: %v, event:%+v",err,event)
-<<<<<<< HEAD
 			return event ,true
-		}
-=======
 		} else {
->>>>>>> ee732c6fd3a27fed07d6c0d8064a754650ed1549
 		sa := new(model.Sa)
 		sa.RecoverTime = event.Etime
 		sa.HashId = event.HashId

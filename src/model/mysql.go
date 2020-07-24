@@ -33,6 +33,7 @@ func InitMySQL(names ...string) {
 			mysqlYml = "etc/mysql.yml"
 		}
 	}
+	fmt.Printf("%v\n",mysqlYml)
 
 	confs := make(map[string]MySQLConf)
 	err := file.ReadYaml(mysqlYml, &confs)

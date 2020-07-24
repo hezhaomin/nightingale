@@ -2,7 +2,7 @@ package cron
 
 import (
 	"encoding/json"
-	"fmt"
+
 
 	"time"
 
@@ -18,6 +18,7 @@ import (
 )
 
 func EventConsumer() {
+
 	queues := config.Get().Queue.EventQueues
 	if len(queues) == 0 {
 		return
@@ -31,7 +32,9 @@ func EventConsumer() {
 			time.Sleep(duration)
 			continue
 		}
+
 		consume(event)
+
 	}
 }
 
@@ -175,11 +178,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		return event, true
 	}
 	if event.EventType == config.ALERT {
-		fmt.Println("***************************\n")
-		fmt.Println(event)
-		fmt.Println("***************************\n")
 		value, exists := mcache.SaCache.ScGet(event.HashId)
-                fmt.Println("value:%v hasid %v\n",value,event.HashId)
 		if !exists || value == "0" {
 			detail , er :=  event.GetEventDetail()
 			if er!= nil {
@@ -190,7 +189,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 			sa := new(model.Sa)
 			sa.AlertTime = event.Etime
 			sa.HashId = event.HashId
-                        sa.Sid = event.Sid
+			sa.Sid = event.Sid
 			sa.Uuid = us
 			sa.Metric = detail[0].Metric
 			sa.Endpoint = event.Endpoint
@@ -210,7 +209,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 		if !exists {
 			logger.Errorf("alarm status recover but not get uuid from sacache: %v, event:%+v",err,event)
 			return event ,true
-		} else {
+		}
 		sa := new(model.Sa)
 		sa.RecoverTime = event.Etime
 		sa.HashId = event.HashId
@@ -220,7 +219,7 @@ func popEvent(queues []interface{}) (*model.Event, bool) {
 			logger.Errorf("create or update event to sa fail: %v, event:%+v",err,event)
 			return event, false
 		}
-		mcache.SaCache.ScSet(event.HashId,"0")}
+		mcache.SaCache.ScSet(event.HashId,"0")
 
 	}
 

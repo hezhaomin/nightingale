@@ -30,6 +30,7 @@ func Push(event *dataobj.Event) error {
 		// 如果写入用lpush 则读出应该用 rpop
 		// 如果写入用rpush 则读出应该用 lpop
 		stats.Counter.Set("redis.push", 1)
+		fmt.Printf("==============================%v",event.Partition)
 		_, err = rc.Do("LPUSH", event.Partition, string(bytes))
 		if err == nil {
 			succ = true

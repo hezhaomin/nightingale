@@ -7,11 +7,11 @@ backend:
     tsdb01: 127.0.0.1:5821
   influxdb:
     enabled: true
-    username: "night"
-    password: "night@123"
+    username: ""
+    password: ""
     precision: "s"
     database: "n9e"
-    address: "http://10.237.25.131:8086"
+    address: "http://10.237.33.52:8086"
 
   opentsdb:
     enabled: false

@@ -148,7 +148,7 @@ func DoNotify(event *model.Event) {
 		case "im":
 			var tos []string
 			for j := 0; j < len(users); j++ {
-				tos = append(tos, users[j].Im)
+				tos = append(tos, users[j].Email)
 			}
 
 			message.Tos = tos
